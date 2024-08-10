@@ -1,0 +1,16 @@
+...Successfully got an update from the "prometheus-community" chart repository
+Update Complete. ⎈Happy Helming!⎈
+admin@Admins-MacBook-Pro k8s-autoscaling % helm install prometheus-adapter prometheus-community/prometheus-adapter               
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /Users/admin/.kube/config
+WARNING: Kubernetes configuration file is world-readable. This is insecure. Location: /Users/admin/.kube/config
+NAME: prometheus-adapter
+LAST DEPLOYED: Sat Aug 10 18:27:57 2024
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+prometheus-adapter has been deployed.
+In a few minutes you should be able to list metrics using the following command(s):
+
+  kubectl get --raw /apis/custom.metrics.k8s.io/v1beta1
