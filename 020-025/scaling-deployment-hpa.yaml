@@ -1,0 +1,76 @@
+##############
+# KEEPING THE DUMMY FILE
+#############
+
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: example-deployment
+#   labels:
+#     app: example-app
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: example-app
+#   template:
+#     metadata:
+#       labels:
+#         app: example-app
+#     spec:
+#       containers:
+#       - name: example-container
+#         image: nginx:latest
+#         ports:
+#         - containerPort: 80
+#         resources:
+#           requests:
+#             cpu: 100m
+#             memory: 128Mi
+#           limits:
+#             cpu: 200m
+#             memory: 256Mi
+# ---
+# apiVersion: autoscaling/v2
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: example-hpa
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: example-deployment
+#   minReplicas: 1
+#   maxReplicas: 10
+#   metrics:
+#   - type: Pods
+#     pods:
+#       metric:
+#         name: http_requests_per_second
+#       target:
+#         type: AverageValue
+#         averageValue: "100"
+#       # selector:
+#       #   matchLabels:
+#       #     app: flask-prometheus-app
+
+# # ---
+# # apiVersion: autoscaling/v2
+# # kind: HorizontalPodAutoscaler
+# # metadata:
+# #   name: example-hpa
+# # spec:
+# #   scaleTargetRef:
+# #     apiVersion: apps/v1
+# #     kind: Deployment
+# #     name: example-deployment
+# #   minReplicas: 1
+# #   maxReplicas: 10
+# #   metrics:
+# #   - type: Pods
+# #     pods:
+# #       metric:
+# #         name: http_requests_per_second
+# #       target:
+# #         type: AverageValue
+# #         averageValue: "1"
