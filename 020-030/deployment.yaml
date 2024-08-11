@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:  
+  name: flask-session-app  
+  labels:    
+    app: flask-session-app
+spec:  
+  replicas: 1  
+  selector:    
+    matchLabels:      
+      app: flask-session-app  
+  template:    
+    metadata:      
+      labels:        
+        app: flask-session-app      
+    spec:      
+      containers:      
+      - name: flask-session-app        
+        image: dipinthomas2003/flask-session-app
+        ports:        
+        - containerPort: 8080        
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:  
+  name: flask-session-app-service
+spec:  
+  selector:    
+    app: flask-session-app  
+  ports:    
+    - protocol: TCP      
+      port: 80      
+      targetPort: 8080
+---
