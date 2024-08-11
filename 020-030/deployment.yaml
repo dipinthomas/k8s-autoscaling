@@ -16,7 +16,7 @@ spec:
     spec:      
       containers:      
       - name: flask-session-app        
-        image: dipinthomas2003/flask-session-app
+        image: dipinthomas2003/flask-session-app:1 
         ports:        
         - containerPort: 8080        
         - containerPort: 8000
