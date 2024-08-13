@@ -2,7 +2,6 @@ prometheus:
   url: http://prometheus-server.default.svc.cluster.local
   port: 80
 
-
 rules:
   custom:
     - seriesQuery: 'active_sessions{namespace!="", pod!=""}' 
@@ -12,4 +11,16 @@ rules:
           pod: {resource: "pod"}
       name:
         as: "active_sessions"
-      metricsQuery: 'sum(rate(active_sessions[5m])) by (kubernetes_pod_name)'
+      metricsQuery: 'sum(active_sessions) by (<<.GroupBy>>)'
+
+
+# rules:
+#   custom:
+#     - seriesQuery: 'active_sessions{namespace!="", pod!=""}' 
+#       resources:
+#         overrides:
+#           namespace: {resource: "namespace"}
+#           pod: {resource: "pod"}
+#       name:
+#         as: "active_sessions"
+#       metricsQuery: 'sum(active_sessions) by (kubernetes_pod_name)'
