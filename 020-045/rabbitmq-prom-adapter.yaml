@@ -5,11 +5,11 @@ prometheus:
 
 rules:
   custom:
-    - seriesQuery: 'rabbitmq_queue_messages{queue=~".+"}'
+    - seriesQuery: 'rabbitmq_queue_messages{namespace!="",pod!=""}'
       resources:
         overrides:
           namespace: {resource: "namespace"}
           pod: {resource: "pod"}
       name:
         as: "rabbitmq_queue_messages"
-      metricsQuery: 'sum(rabbitmq_queue_messages) by (queue)'
+      metricsQuery: 'rabbitmq_queue_messages{service=~".+"}'
