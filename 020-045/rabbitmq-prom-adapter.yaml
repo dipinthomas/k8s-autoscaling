@@ -2,9 +2,8 @@ prometheus:
   url: http://prometheus-operated.default.svc.cluster.local
   port: 9090
 
-
 rules:
-  custom:
+  external:
     - seriesQuery: 'rabbitmq_queue_messages{namespace!="",pod!=""}'
       resources:
         overrides:
@@ -13,3 +12,21 @@ rules:
       name:
         as: "rabbitmq_queue_messages"
       metricsQuery: 'rabbitmq_queue_messages{service=~".+"}'
+
+#####
+# Keeping as back-up only, ignore everything below this
+#####
+## Working with below command  but not HPA
+
+## kubectl get --raw "/apis/custom.metrics.k8s.io/v1beta1/namespaces/default/pods/*/rabbitmq_queue_messages"| jq
+
+# rules:
+#   custom:
+#     - seriesQuery: 'rabbitmq_queue_messages{namespace!="",pod!=""}'
+#       resources:
+#         overrides:
+#           namespace: {resource: "namespace"}
+#           pod: {resource: "pod"}
+#       name:
+#         as: "rabbitmq_queue_messages"
+#       metricsQuery: 'rabbitmq_queue_messages{service=~".+"}'
