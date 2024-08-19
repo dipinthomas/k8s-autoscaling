@@ -1,0 +1,15 @@
+prometheus:
+  url: http://prometheus-operated.default.svc.cluster.local
+  port: 9090
+
+
+rules:
+  custom:
+    - seriesQuery: 'rabbitmq_queue_messages{queue=~".+"}'
+      resources:
+        overrides:
+          namespace: {resource: "namespace"}
+          pod: {resource: "pod"}
+      name:
+        as: "rabbitmq_queue_messages"
+      metricsQuery: 'sum(rabbitmq_queue_messages) by (queue)'
