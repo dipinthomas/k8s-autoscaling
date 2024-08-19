@@ -5,7 +5,7 @@ metadata:
   labels:
     app: my-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: my-app
@@ -19,6 +19,7 @@ spec:
         image: dipinthomas2003/flask-prometheus-app:latest
         ports:
         - containerPort: 8080
+          name: http
         readinessProbe:
           httpGet:
             path: /metrics
@@ -43,6 +44,7 @@ spec:
     app: my-app
   ports:
   - protocol: TCP
+    name: http
     port: 8080
     targetPort: 8080
 ---
@@ -51,7 +53,7 @@ kind: ServiceMonitor
 metadata:
   name: my-app-servicemonitor
   labels:
-    release: prometheus
+    release: prometheus-operator
 spec:
   selector:
     matchLabels:
@@ -60,7 +62,7 @@ spec:
     matchNames:
       - default
   endpoints:
-  - port: "8080"  # The port value should be a string
+  - port: "http"  # The port value should be a string
     path: /metrics
     interval: 30s
     scrapeTimeout: 10s
