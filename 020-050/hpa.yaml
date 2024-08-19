@@ -1,0 +1,108 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-order-app
+  labels:
+    app: flask-order-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: flask-order-app
+  template:
+    metadata:
+      labels:
+        app: flask-order-app
+    spec:
+      containers:
+      - name: flask-order-app
+        image: dipinthomas2003/flask-order-app:1
+        ports:
+        - containerPort: 5000
+          name: app
+        - containerPort: 8000
+          name: metrics
+        env:
+        - name: PROMETHEUS_METRICS_PORT
+          value: "8000"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-order-service
+  labels:
+    app: flask-order-app
+spec:
+  selector:
+    app: flask-order-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: app
+    name: app
+  - protocol: TCP
+    name: metrics
+    port: 8000
+    targetPort: metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: flask-order-servicemonitor
+  labels:
+    app: flask-order-app
+    release: prometheus-operator
+spec:
+  selector:
+    matchLabels:
+      app: flask-order-app
+  endpoints:
+  - port: "metrics"
+    interval: 30s
+    path: /metrics
+  namespaceSelector:
+    matchNames:
+    - default
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: flask-order-hpa
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: flask-order-app
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Pods
+    pods:
+      metric:
+        name: order_count
+      target:
+        type: AverageValue
+        averageValue: "200"  # Set this to your desired threshold per pod
+
+# ---
+# apiVersion: autoscaling/v2
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: flask-order-hpa
+#   namespace: default
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: flask-order-app
+#   minReplicas: 1
+#   maxReplicas: 10
+#   metrics:
+#   - type: External
+#     external:
+#       metric:
+#         name: order_count
+#       target:
+#         type: AverageValue
+#         averageValue: "350"

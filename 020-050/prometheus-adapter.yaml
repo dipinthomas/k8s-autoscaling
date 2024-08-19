@@ -1,0 +1,16 @@
+prometheus:
+  url: http://prometheus-operated.default.svc.cluster.local
+  port: 9090
+
+rules:
+  external:
+    - seriesQuery: 'order_count{namespace!="",pod!=""}'
+      resources:
+        overrides:
+          namespace:
+            resource: "namespace"
+          pod:
+            resource: "pod"
+      name:
+        matches: "order_count"
+      metricsQuery: 'order_count{namespace="default",job="flask-order-service"}'
