@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq-consumer
+  labels:
+    app: rabbitmq-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq-consumer
+  template:
+    metadata:
+      labels:
+        app: rabbitmq-consumer
+    spec:
+      containers:
+      - name: rabbitmq-consumer
+        image: dipinthomas2003/flask-session-app:1   # Replace with the actual image
+        ports:
+        - containerPort: 5672  # RabbitMQ default port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-consumer
+  labels:
+    app: rabbitmq-consumer
+spec:
+  ports:
+  - port: 5672
+    targetPort: 5672
+    protocol: TCP
+  selector:
+    app: rabbitmq-consumer
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: rabbitmq-consumer-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: rabbitmq-consumer
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: External
+    external:
+      metric:
+        name: rabbitmq_queue_messages
+      target:
+        type: AverageValue
+        averageValue: "10"  # Adjust this value based on your scaling needs
