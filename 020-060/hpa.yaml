@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-dispatch-app
+  labels:
+    app: flask-dispatch-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flask-dispatch-app
+  template:
+    metadata:
+      labels:
+        app: flask-dispatch-app
+    spec:
+      containers:
+      - name: flask-dispatch-app
+        image: dipinthomas2003/flask-session-app:1
+        resources:
+          requests:
+            cpu: "200m"  # Requesting 250 millicores (0.25 CPU)
+          limits:
+            cpu: "500m"  # Limiting to 500 millicores (0.5 CPU)
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: flask-dispatch-hpa
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: flask-dispatch-app
+  minReplicas: 1
+  maxReplicas: 20
+  metrics:
+  - type: External
+    external:
+      metric:
+        name: order_count
+      target:
+        type: AverageValue
+        averageValue: "350"
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50  # Scale up when CPU usage exceeds 50%
+
