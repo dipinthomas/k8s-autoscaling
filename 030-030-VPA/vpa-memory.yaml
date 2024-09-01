@@ -16,15 +16,13 @@ spec:
   updatePolicy:
     updateMode: "Off"
     evictionRequirements:
-      - resources: ["cpu", "memory"]
+      - resources: ["memory"]
         changeRequirement: TargetHigherThanRequests
   resourcePolicy:
     containerPolicies:
       - containerName: '*'
         minAllowed:
-          cpu: 100m
-          memory: 50Mi
+          memory: 150Mi
         maxAllowed:
-          cpu: 1
           memory: 1000Mi
-        controlledResources: ["cpu", "memory"]
+        controlledResources: ["memory"]

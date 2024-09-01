@@ -12,19 +12,17 @@ spec:
   targetRef:
     apiVersion: "apps/v1"
     kind: Deployment
-    name: flask-app
+    name: flask-app-4
   updatePolicy:
     updateMode: "Off"
     evictionRequirements:
-      - resources: ["cpu", "memory"]
+      - resources: ["cpu"]
         changeRequirement: TargetHigherThanRequests
   resourcePolicy:
     containerPolicies:
       - containerName: '*'
         minAllowed:
           cpu: 100m
-          memory: 100Mi
         maxAllowed:
-          cpu: 1
-          memory: 500Mi
-        controlledResources: ["cpu", "memory"]
+          cpu: 1000m
+        controlledResources: ["cpu"]

@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-app
+  name: flask-app-4
   labels:
-    app: flask-app
+    app: flask-app-4
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: flask-app
+      app: flask-app-4
   template:
     metadata:
       labels:
-        app: flask-app
+        app: flask-app-4
     spec:
       containers:
-      - name: flask-app
+      - name: flask-app-4
         image:  dipinthomas2003/flask-session-app:1 
         ports:
         - name: http
@@ -24,12 +24,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: flask-app-service
+  name: flask-app-4-service
   labels:
-    app: flask-app
+    app: flask-app-4
 spec:
   selector:
-    app: flask-app
+    app: flask-app-4
   ports:
   - name: http
     protocol: TCP
