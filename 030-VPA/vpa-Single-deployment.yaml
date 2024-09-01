@@ -13,10 +13,6 @@ spec:
     metadata:
       labels:
         app: flask-app
-      annotations:
-        .io/scrape: 'true'
-        .io/path: '/metrics'
-        .io/port: '8080'
     spec:
       containers:
       - name: flask-app
