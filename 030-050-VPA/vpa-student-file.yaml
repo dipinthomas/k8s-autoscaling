@@ -9,7 +9,7 @@ spec:
     kind: Deployment
     name:  # Student to fill
   updatePolicy:
-    updateMode: "Off"
+    updateMode: "--"  # student to update "Off"
     evictionRequirements:
       - resources: [ -- ]  # student to fill  ["cpu", "memory"]
         changeRequirement: TargetHigherThanRequests
