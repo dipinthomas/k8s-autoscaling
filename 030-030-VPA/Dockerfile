@@ -1,11 +1,21 @@
-# Use an official Ubuntu as a parent image
-FROM ubuntu:latest
+# Use an official Python runtime as a parent image
+FROM python:3.8-slim
 
-# Update and install necessary packages
-RUN apt-get update && apt-get install -y \
-    procps \
-    htop \
-    && rm -rf /var/lib/apt/lists/*
+# Set the working directory in the container
+WORKDIR /app
 
-# Set the command to keep the container running
-CMD ["tail", "-f", "/dev/null"]
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Copy the requirements.txt file
+COPY requirements.txt /app/
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Expose ports
+EXPOSE 8080
+EXPOSE 8000
+
+# Run app.py when the container launches
+CMD ["python", "app.py"]
