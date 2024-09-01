@@ -14,7 +14,7 @@ spec:
     kind: Deployment
     name: flask-app
   updatePolicy:
-    updateMode: "Off"
+    updateMode: "Auto"
     evictionRequirements:
       - resources: ["cpu", "memory"]
         changeRequirement: TargetHigherThanRequests
