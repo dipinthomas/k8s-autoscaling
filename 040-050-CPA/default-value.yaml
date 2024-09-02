@@ -2,13 +2,13 @@ affinity: {}
 config: 
  linear:
    coresPerReplica: 2
-   nodesPerReplica: 1
-   min: 1
-   max: 100
-   preventSinglePointFailure: true
-   includeUnschedulableNodes: true
+   #nodesPerReplica: 10
+   min: 4
+   #max: 100
+   #preventSinglePointFailure: true
+   #includeUnschedulableNodes: false
 image:
-  repository: registry.k8s.io/cpa/cluster-proportional-autoscaler:1.8.6
+  repository: registry.k8s.io/cpa/cluster-proportional-autoscaler
   pullPolicy: IfNotPresent
   tag:
 imagePullSecrets: []
@@ -24,7 +24,7 @@ options:
   # Defaulting to true limits use of ephemeral storage
   logToStdErr: true
   maxSyncFailures:
-  namespace:
+  namespace: 
   nodeLabels: {}
   #  label1: value1
   #  label2: value2
