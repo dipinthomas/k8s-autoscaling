@@ -1,0 +1,28 @@
+
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nginx-autoscaler
+  namespace: default
+data:
+  ladder: |-
+    {
+      "coresToReplicas":
+      [
+        [ 1,1 ],
+        [ 3,3 ],
+        [ 512,5 ],
+        [ 1024,7 ],
+        [ 2048,10 ],
+        [ 4096,15 ],
+        [ 8192,20 ],
+        [ 12288,30 ],
+        [ 16384,40 ],
+        [ 20480,50 ],
+        [ 24576,60 ],
+        [ 28672,70 ],
+        [ 32768,80 ],
+        [ 65535,100 ]
+      ]
+    }
