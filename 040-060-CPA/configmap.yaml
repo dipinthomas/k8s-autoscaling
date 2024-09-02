@@ -7,8 +7,5 @@ metadata:
 data:
   linear: |-
     {
-      "coresPerReplica": 2,
       "min" : 1,
-      "nodesPerReplica": 1,
-      "preventSinglePointFailure": false
     }
