@@ -11,7 +11,7 @@ data:
       "coresToReplicas":
       [
         [ 1,1 ],
-        [ 4,1 ], expected 1 pod
+        [ 4,1 ], 
         [ 512,5 ],
         [ 1024,7 ],
         [ 2048,10 ],

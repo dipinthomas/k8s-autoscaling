@@ -11,6 +11,6 @@ data:
       "nodesToReplicas":
       [
         [ 1,2 ],
-        [ 2,10 ] expected 10 pods
+        [ 2,10 ] 
       ]
     }
