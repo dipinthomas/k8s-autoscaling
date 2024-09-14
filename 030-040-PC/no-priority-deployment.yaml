@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: no-priority-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: no-priority
+  template:
+    metadata:
+      labels:
+        app: no-priority
+    spec:
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["sh", "-c", "sleep 3600"]
+        resources:
+          requests:
+            memory: "300Mi"
+            cpu: "300m"
+          limits:
+            memory: "300Mi"
+            cpu: "300m"
