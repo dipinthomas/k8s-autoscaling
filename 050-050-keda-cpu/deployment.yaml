@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cpu-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpu-app
+  template:
+    metadata:
+      labels:
+        app: cpu-app
+    spec:
+      containers:
+      - name: cpu-stress
+        image: progrium/stress
+        args: ["--cpu", "1"]
+        resources:
+          requests:
+            cpu: 100m
+          limits:
+            cpu: 500m

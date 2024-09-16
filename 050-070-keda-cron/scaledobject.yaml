@@ -1,0 +1,15 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: nginx-cron-scaler
+spec:
+  scaleTargetRef:
+    name: nginx
+  minReplicaCount: 1
+  triggers:
+  - type: cron
+    metadata:
+      timezone: Etc/UTC
+      start: "0 10 * * *"        # Starts at 10:00 AM every day
+      end: "0 15 * * *"          # Ends at 15:00 PM every day
+      desiredReplicas: "3"       # Scale up to 3 replicas during this period

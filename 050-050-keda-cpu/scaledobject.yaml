@@ -1,0 +1,15 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: cpu-app-scaledobject
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: cpu-app    # The deployment name
+  minReplicaCount: 1
+  maxReplicaCount: 5
+  triggers:
+  - type: cpu
+    metadata:
+      type: Utilization
+      value: "50"    # Scale when CPU utilization is above 50%
