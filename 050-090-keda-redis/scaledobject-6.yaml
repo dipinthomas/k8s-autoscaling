@@ -23,7 +23,22 @@ metadata:
 spec:
   minReplicaCount: 1
   cooldownPeriod: 30
-  pollingInterval: 15  # Optional: Polling interval for external metrics  
+  pollingInterval: 15  # Optional: Polling interval for external metrics
+  advanced:            # Advanced HPA behavior settings
+    horizontalPodAutoscalerConfig:
+      behavior:
+        scaleDown:
+          stabilizationWindowSeconds: 20  # Wait 60s before scaling down
+          policies:
+          - type: Percent
+            value: 50  # Scale down by 50% of current pods at max every 60 seconds
+            periodSeconds: 20
+        scaleUp:
+          stabilizationWindowSeconds: 0  # No stabilization window for scaling up
+          policies:
+          - type: Percent
+            value: 100  # Scale up by 100% of current pods at max every 15 seconds
+            periodSeconds: 15
   scaleTargetRef:
     name: nginx
   triggers:
